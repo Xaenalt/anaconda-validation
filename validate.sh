@@ -1,6 +1,7 @@
 #!/bin/sh
 
 IMAGESTREAM_NAME='s2i-minimal-notebook-anaconda'
+CONFIGMAP_NAME='anaconda-ce-validation-result'
 
 function get_variable() {
   cat "/etc/secret-volume/${1}"
@@ -18,14 +19,14 @@ function write_imagestream_value() {
 }
 
 function verify_configmap_exists() {
-  if ! oc get configmap "$(get_variable configMapName)" &>/dev/null; then
+  if ! oc get configmap "${CONFIGMAP_NAME}" &>/dev/null; then
     echo "Result ConfigMap doesn't exist, creating"
-    oc create configmap "$(get_variable configMapName)" --from-literal validation_result="false"
+    oc create configmap "${CONFIGMAP_NAME}" --from-literal validation_result="false"
   fi
 }
 
 function write_configmap_value() {
-  oc patch configmap "$(get_variable configMapName)" -p '"data": { "validation_result": "'${1}'" }'
+  oc patch configmap "${CONFIGMAP_NAME}" -p '"data": { "validation_result": "'${1}'" }'
 }
 
 function success() {
@@ -51,10 +52,13 @@ echo "Validation result: ${CURL_CODE}"
 
 if [ "${CURL_CODE}" == 200 ]; then
   success
+  exit 0
 elif [ "${CURL_CODE}" == 403 ]; then
   failure
+  exit 1
 else
   echo "Return code ${CURL_CODE} from validation check, possibly upstream error. Exiting."
   echo "Result from curl:"
   echo "${CURL_RESULT}"
+  exit 2
 fi
