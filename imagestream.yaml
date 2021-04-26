@@ -15,6 +15,8 @@ spec:
   tags:
   - annotations:
       openshift.io/imported-from: quay.io/modh/s2i-minimal-notebook-anaconda
+      opendatahub.io/notebook-software: '[{"name":"Anaconda-Python","version":"v3.8.5"}]'
+      opendatahub.io/notebook-python-dependencies: '[{"name":"Anaconda","version":"2020.11"},{"name":"conda","version":"4.9.2"}]'
     from:
       kind: DockerImage
       name: quay.io/modh/s2i-minimal-notebook-anaconda:py38
