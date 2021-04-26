@@ -9,14 +9,6 @@ metadata:
     opendatahub.io/notebook-image-url: "https://github.com/Xaenalt/s2i-minimal-notebook"
     opendatahub.io/notebook-image-name: "Anaconda-enabled notebook. Requires Anaconda license key."
     opendatahub.io/notebook-image-desc: "Notebook with Anaconda tools instead of pip."
-    opendatahub.io/notebook-python-dependencies:
-      - name: Anaconda
-        version: "2020.11"
-      - name: conda
-        version: "4.9.2"
-    opendatahub.io/notebook-software:
-      - name: Python
-        version: "3.8.5"
 spec:
   lookupPolicy:
     local: true
