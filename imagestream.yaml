@@ -7,8 +7,8 @@ metadata:
     opendatahub.io/modified: "false"
   annotations:
     opendatahub.io/notebook-image-url: "https://github.com/Xaenalt/s2i-minimal-notebook"
-    opendatahub.io/notebook-image-name: "Anaconda-enabled notebook. Requires Anaconda license key."
-    opendatahub.io/notebook-image-desc: "Notebook with Anaconda tools instead of pip."
+    opendatahub.io/notebook-image-name: "Anaconda Commercial Edition"
+    opendatahub.io/notebook-image-desc: "Notebook with Anaconda CE tools instead of pip."
 spec:
   lookupPolicy:
     local: true
