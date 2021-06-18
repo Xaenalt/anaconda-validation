@@ -52,13 +52,12 @@ echo "Validation result: ${CURL_CODE}"
 
 if [ "${CURL_CODE}" == 200 ]; then
   success
-  exit 0
 elif [ "${CURL_CODE}" == 403 ]; then
   failure
-  exit 1
 else
   echo "Return code ${CURL_CODE} from validation check, possibly upstream error. Exiting."
   echo "Result from curl:"
   echo "${CURL_RESULT}"
-  exit 2
 fi
+
+exit 0
