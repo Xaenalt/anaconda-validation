@@ -15,7 +15,9 @@ function verify_image_exists() {
 }
 
 function write_imagestream_value() {
-  oc label imagestream "${IMAGESTREAM_NAME}" opendatahub.io/notebook-image=${1} --overwrite
+  if ! oc get imagestream "${IMAGESTREAM_NAME}" &>/dev/null; then
+    oc label imagestream "${IMAGESTREAM_NAME}" opendatahub.io/notebook-image=${1} --overwrite
+  fi
 }
 
 function verify_configmap_exists() {
@@ -29,17 +31,21 @@ function write_configmap_value() {
   oc patch configmap "${CONFIGMAP_NAME}" -p '"data": { "validation_result": "'${1}'" }'
 }
 
+function write_last_valid_time() {
+  oc patch configmap "${CONFIGMAP_NAME}" -p '"data": { "last_valid_time": "'$(date -Is)'" }'
+}
+
 function success() {
   echo "Validation succeeded, enabling image"
   verify_image_exists
   write_imagestream_value true
   verify_configmap_exists
   write_configmap_value true
+  write_last_valid_time
 }
 
 function failure() {
   echo "Validation failed, disabling image"
-  verify_image_exists
   write_imagestream_value false
   verify_configmap_exists
   write_configmap_value false
