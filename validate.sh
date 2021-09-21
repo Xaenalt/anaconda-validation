@@ -15,9 +15,7 @@ function verify_image_exists() {
 }
 
 function write_imagestream_value() {
-  if ! oc get imagestream "${IMAGESTREAM_NAME}" &>/dev/null; then
-    oc label imagestream "${IMAGESTREAM_NAME}" opendatahub.io/notebook-image=${1} --overwrite
-  fi
+  oc label imagestream "${IMAGESTREAM_NAME}" opendatahub.io/notebook-image=${1} --overwrite
 }
 
 function verify_configmap_exists() {
