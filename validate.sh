@@ -3,6 +3,37 @@
 IMAGESTREAM_NAME='s2i-minimal-notebook-anaconda'
 CONFIGMAP_NAME='anaconda-ce-validation-result'
 
+function generate_payload() {
+  cat << EOM
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: s2i-minimal-notebook-anaconda
+  labels:
+    opendatahub.io/notebook-image: "false"
+    opendatahub.io/modified: "false"
+  annotations:
+    opendatahub.io/notebook-image-url: "https://github.com/Xaenalt/s2i-minimal-notebook"
+    opendatahub.io/notebook-image-name: "Anaconda Commercial Edition"
+    opendatahub.io/notebook-image-desc: "Notebook with Anaconda CE tools instead of pip."
+spec:
+  lookupPolicy:
+    local: true
+  tags:
+  - annotations:
+      openshift.io/imported-from: quay.io/modh/s2i-minimal-notebook-anaconda
+      opendatahub.io/notebook-software: '[{"name":"Anaconda-Python","version":"v3.8.5"}]'
+      opendatahub.io/notebook-python-dependencies: '[{"name":"Anaconda","version":"2020.11"},{"name":"conda","version":"4.9.2"}]'
+    from:
+      kind: DockerImage
+      name: quay.io/modh/s2i-minimal-notebook-anaconda:py38
+    name: "py38"
+    referencePolicy:
+      type: Source
+EOM
+}
+
 function get_variable() {
   cat "/etc/secret-volume/${1}"
 }
@@ -10,7 +41,7 @@ function get_variable() {
 function verify_image_exists() {
   if ! oc get imagestream "${IMAGESTREAM_NAME}" &>/dev/null; then
     echo "ImageStream doesn't exist, creating"
-    oc apply -f imagestream.yaml
+    generate_payload | oc apply -f -
   fi
 }
 
