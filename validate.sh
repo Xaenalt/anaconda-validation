@@ -10,7 +10,7 @@ function generate_imagestream() {
 }
 
 function generate_buildconfig() {
-  echo '{"kind":"BuildConfig","apiVersion":"build.openshift.io/v1","metadata":{"name":"s2i-minimal-notebook-anaconda","namespace":"redhat-ods-applications","labels":{"opendatahub.io/build_type":"notebook_image"}},"spec":{"output":{"to":{"kind":"ImageStreamTag","name":"s2i-minimal-notebook-anaconda:v0.1.1-anaconda"}},"strategy":{"type":"Docker"},"source":{"type":"Git","git":{"uri":"https://github.com/red-hat-data-services/s2i-minimal-notebook-anaconda","ref":"v0.1.1-anaconda"}},"runPolicy":"Serial"}}'
+  echo '{"kind":"BuildConfig","apiVersion":"build.openshift.io/v1","metadata":{"name":"s2i-minimal-notebook-anaconda","namespace":"redhat-ods-applications","labels":{"opendatahub.io/build_type":"notebook_image"}},"spec":{"output":{"to":{"kind":"ImageStreamTag","name":"s2i-minimal-notebook-anaconda:v0.1.1-anaconda"}},"strategy":{"type":"Docker","dockerStrategy":{"dockerfilePath":"Dockerfile.AIO"}},"source":{"type":"Git","git":{"uri":"https://github.com/red-hat-data-services/s2i-minimal-notebook-anaconda","ref":"v0.1.1-anaconda-aio"}},"runPolicy":"Serial"}}'
 }
 
 function create_imagestream() {

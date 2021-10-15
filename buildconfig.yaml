@@ -12,9 +12,11 @@ spec:
       name: 's2i-minimal-notebook-anaconda:v0.1.1-anaconda'
   strategy:
     type: Docker
+    dockerStrategy:
+      dockerfilePath: 'Dockerfile.AIO'
   source:
     type: Git
     git:
       uri: 'https://github.com/red-hat-data-services/s2i-minimal-notebook-anaconda'
-      ref: 'v0.1.1-anaconda'
+      ref: 'v0.1.1-anaconda-aio'
   runPolicy: Serial
