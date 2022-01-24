@@ -9,7 +9,7 @@ spec:
   output:
     to:
       kind: ImageStreamTag
-      name: 's2i-minimal-notebook-anaconda:v0.1.1-anaconda'
+      name: 's2i-minimal-notebook-anaconda:v0.2.2-anaconda'
   strategy:
     type: Docker
     dockerStrategy:
@@ -18,5 +18,5 @@ spec:
     type: Git
     git:
       uri: 'https://github.com/red-hat-data-services/s2i-minimal-notebook-anaconda'
-      ref: 'v0.1.1-anaconda-aio'
+      ref: 'v0.2.2-anaconda'
   runPolicy: Serial
